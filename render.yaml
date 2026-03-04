@@ -2,8 +2,11 @@ services:
   - type: web
     name: trail-app
     runtime: python
-    buildCommand: "pip install -r requirements.txt && python init_db.py"
-    startCommand: "python app.py"
+    buildCommand: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+      python init_db.py
+    startCommand: "gunicorn app:app"
     envVars:
       - key: FLASK_ENV
         value: production
